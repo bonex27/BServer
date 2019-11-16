@@ -35,17 +35,17 @@ public class NavalBattleServer {
             Boat b1 = new Boat(2,"b1");
             Boats.add(b1);
             Boat b2 = new Boat(2,"b2");
-            Boats.add(b1);
+            Boats.add(b2);
             Boat b3 = new Boat(2,"b3");
-            Boats.add(b1);
+            Boats.add(b3);
             Boat b4 = new Boat(3,"b4");
-            Boats.add(b1);
+            Boats.add(b4);
             Boat b5 = new Boat(3,"b5");
-            Boats.add(b1);
+            Boats.add(b5);
             Boat b6 = new Boat(4,"b6");
-            Boats.add(b1);
+            Boats.add(b6);
             Boat b7 = new Boat(5,"b7");
-            Boats.add(b1);
+            Boats.add(b7);
                 
             ServerSocket server = new ServerSocket(6012);
             System.out.println("BServer is onine!");

@@ -86,6 +86,7 @@ public class Game implements Runnable{
                     {
                         refGrid[iL][y].contenuto = 'b';
                         refGrid[iL][y].nomeBarca= boatName;
+                        //System.out.println("Add");
 
                     }
             }
@@ -96,6 +97,7 @@ public class Game implements Runnable{
                 {
                     refGrid[x][iL].contenuto = 'b';
                     refGrid[x][iL].nomeBarca= boatName;
+                    //System.out.println("Add");
                 }
             }
             return "Barca aggiunta!";
@@ -177,11 +179,8 @@ public class Game implements Runnable{
                     output.println(Boats.get(i).iLunghezza+"@"+Boats.get(i).nome);
                     comando = input.nextLine();
                     arrOfStr= comando.split("@", 10);
-                    this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i));
-                   setup();
-                }
-            
-       
+                    System.out.println(this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i)));
+                }                   
     }
     //controllo il turno del giocatore e se hai un avversario
 
