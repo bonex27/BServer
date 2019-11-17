@@ -79,10 +79,10 @@ public class Game implements Runnable{
             if(cOr == 'v')
             {
                 iL = x;
-                for(int i = 0; i < b.iLunghezza;i++, iL++)
+                for(int i = y; i < y+b.iLunghezza;i++)
                    {
-                       refGrid[iL][y].contenuto = 'b';
-                       refGrid[iL][y].nomeBarca= boatName;
+                       refGrid[x][i].contenuto = 'b';
+                       refGrid[x][i].nomeBarca= boatName;
                        //System.out.println("Add");
 
                    }
@@ -91,21 +91,17 @@ public class Game implements Runnable{
             else if(cOr == 'o')
             {
                 iL = y;
-                for(int i = 0; i < b.iLunghezza;i++, iL++)
-                    {
-                        refGrid[x][iL].contenuto = 'b';
-                        refGrid[x][iL].nomeBarca= boatName;
-                        //System.out.println("Add");
-                    }
-                }
-                return "ADD";
-        }
-        else
-        {
-          return "NEAR";  
-        }
-        
+                for(int i = x; i < x+b.iLunghezza;i++)
+                   {
+                       refGrid[iL][y].contenuto = 'b';
+                       refGrid[iL][y].nomeBarca= boatName;
+                       //System.out.println("Add");
 
+                   }
+                return "ADD";
+            }           
+        }
+        return "NEAR";
     }
     public boolean checkSpazio(int x,int y,int iLung,char cOr)//Controlla in tutte le 8 caselle vicine 
     {
@@ -182,7 +178,7 @@ public class Game implements Runnable{
                             chkAdd = this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i));
                             output.println(chkAdd);
                         }while(chkAdd.equals("NEAR") );
-                        showMatrix();
+                        //showMatrix();
                     }
                 }
             catch(Exception e)
