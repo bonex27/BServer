@@ -108,12 +108,12 @@ public class Game implements Runnable{
         if(cOr == 'o')
         {
             int iX;
-            //int iY;
+           
             for(iX = x; iX < x+iLung;iX++){
-                //for(iY = y-1; iY < y+2; iY+=2){
+              
                     if(refGrid[iX][y].contenuto == 'b')
                         return false;
-                //}
+                
             }
             if(refGrid[x][y-1].contenuto == 'b')
                         return false;
@@ -123,13 +123,13 @@ public class Game implements Runnable{
         }
         else if(cOr == 'v')
         {
-           // int iX;
+           
             int iY;
             for(iY = y; iY < y+iLung;iY++){
-                //for(iX = x-1; iX < x+2; iX+=2){
+               
                     if(refGrid[x][iY].contenuto == 'b')
                         return false;
-                //}
+               
             }
             if(refGrid[x-1][y].contenuto == 'b')
                         return false;
