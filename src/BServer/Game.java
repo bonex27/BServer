@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,7 +109,7 @@ public class Game implements Runnable{
     }
     public boolean checkSpazio(int x,int y,int iLung,char cOr)//Controlla in tutte le 8 caselle vicine 
     {
-        if(cOr == 'v')
+        if(cOr == 'o')
         {
             int iX;
             int iY;
@@ -126,7 +125,7 @@ public class Game implements Runnable{
                         return false;
         return true;
         }
-        else if(cOr == 'o')
+        else if(cOr == 'v')
         {
             int iX;
             int iY;
@@ -183,6 +182,7 @@ public class Game implements Runnable{
                             chkAdd = this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i));
                             output.println(chkAdd);
                         }while(chkAdd.equals("NEAR") );
+                        showMatrix();
                     }
                 }
             catch(Exception e)
