@@ -76,74 +76,70 @@ public class Game implements Runnable{
     {
         if(this.checkSpazio(x, y, b.iLunghezza, cOr) == true)
         {
-            
-        
             int iL;
             if(cOr == 'v')
             {
-                 iL = x;
-                 for(int i = 0; i < b.iLunghezza;i++, iL++)
-                    {
-                        refGrid[iL][y].contenuto = 'b';
-                        refGrid[iL][y].nomeBarca= boatName;
-                        //System.out.println("Add");
+                iL = x;
+                for(int i = 0; i < b.iLunghezza;i++, iL++)
+                   {
+                       refGrid[iL][y].contenuto = 'b';
+                       refGrid[iL][y].nomeBarca= boatName;
+                       //System.out.println("Add");
 
-                    }
+                   }
+                return "ADD";
             }
             else if(cOr == 'o')
             {
                 iL = y;
-            for(int i = 0; i < b.iLunghezza;i++, iL++)
-                {
-                    refGrid[x][iL].contenuto = 'b';
-                    refGrid[x][iL].nomeBarca= boatName;
-                    //System.out.println("Add");
+                for(int i = 0; i < b.iLunghezza;i++, iL++)
+                    {
+                        refGrid[x][iL].contenuto = 'b';
+                        refGrid[x][iL].nomeBarca= boatName;
+                        //System.out.println("Add");
+                    }
                 }
-            }
-            return "Barca aggiunta!";
+                return "ADD";
         }
         else
         {
-          return "Barca vicina!";  
+          return "NEAR";  
         }
         
 
     }
     public boolean checkSpazio(int x,int y,int iLung,char cOr)//Controlla in tutte le 8 caselle vicine 
     {
-        int iL;
         if(cOr == 'v')
         {
-             iL = x;
-             for(int i = 0; i < iLung;i++, iL++)
-           {
-                   if(   refGrid[iL][y].contenuto != 'm' &&  
-                         refGrid[iL][y].contenuto != 'm' &&
-                         refGrid[iL][y].contenuto != 'm' &&
-                         refGrid[iL][y].contenuto != 'm' &&
-                         refGrid[iL][y].contenuto != 'm' &&  
-                         refGrid[iL][y].contenuto != 'm' &&
-                         refGrid[iL][y].contenuto != 'm' &&
-                         refGrid[iL][y].contenuto != 'm')
-                       return false;                  
-           }   
+            int iX;
+            int iY;
+            for(iX = x-1; iX < x+iLung;iX++){
+                for(iY = y-1; iY < y+2; iY+=2){
+                    if(refGrid[iX][iY].contenuto == 'b')
+                        return false;
+                }
+            }
+            if(refGrid[x][y-1].contenuto == 'b')
+                        return false;
+            if(refGrid[x+iLung][y].contenuto == 'b')
+                        return false;
         return true;
         }
         else if(cOr == 'o')
         {
-            iL = y;
-             for(int i = 0; i < iLung;i++, iL++)
-           {
-                   if(   refGrid[x][iL].contenuto != 'm' &&  
-                         refGrid[x][iL].contenuto != 'm' &&
-                         refGrid[x][iL].contenuto != 'm' &&
-                         refGrid[x][iL].contenuto != 'm' &&
-                         refGrid[x][iL].contenuto != 'm' &&  
-                         refGrid[x][iL].contenuto != 'm' &&
-                         refGrid[x][iL].contenuto != 'm' &&
-                         refGrid[x][iL].contenuto != 'm')
-                       return false;                  
-           }   
+            int iX;
+            int iY;
+            for(iY = y-1; iY < y+iLung;iY++){
+                for(iX = x-1; iX < x+2; iX+=2){
+                    if(refGrid[iX][iY].contenuto == 'b')
+                        return false;
+                }
+            }
+            if(refGrid[x-1][y].contenuto == 'b')
+                        return false;
+            if(refGrid[x][y+iLung].contenuto == 'b')
+                        return false;
         return true;
         }       
         return false;
@@ -167,20 +163,32 @@ public class Game implements Runnable{
         return false;
     }
   
-    public void setup() throws IOException
+    public void setup()
     {
         String comando;
+        String chkAdd;
         //System.out.println(this.sName+ " connesso!");
          
-            
+            try{
             for(int i = 0; i < Boats.size();i++)
                 {
-                    output.println(this.sName+"@p");//client
-                    output.println(Boats.get(i).iLunghezza+"@"+Boats.get(i).nome);
-                    comando = input.nextLine();
-                    arrOfStr= comando.split("@", 10);
-                    System.out.println(this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i)));
-                }                   
+                        output.println(this.sName+"@p");//client
+                        //input.nextLine();
+
+                        do
+                        {
+                            output.println(Boats.get(i).iLunghezza+"@"+Boats.get(i).nome);
+                            comando = input.nextLine();
+                            arrOfStr= comando.split("@", 10);
+                            chkAdd = this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i));
+                            output.println(chkAdd);
+                        }while(chkAdd.equals("NEAR") );
+                    }
+                }
+            catch(Exception e)
+            {
+                System.out.println(e);
+            }
     }
     //controllo il turno del giocatore e se hai un avversario
 
