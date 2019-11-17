@@ -93,8 +93,8 @@ public class Game implements Runnable{
                 iL = y;
                 for(int i = x; i < x+b.iLunghezza;i++)
                    {
-                       refGrid[iL][y].contenuto = 'b';
-                       refGrid[iL][y].nomeBarca= boatName;
+                       refGrid[i][y].contenuto = 'b';
+                       refGrid[i][y].nomeBarca= boatName;
                        //System.out.println("Add");
 
                    }
