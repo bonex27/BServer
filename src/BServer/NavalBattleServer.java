@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 
 /**
  *
@@ -19,8 +20,8 @@ public class NavalBattleServer {
     /**
      * @param args
      */
-    //static int turnPlay = 1;
-    
+    static Semaphore turnPlay = new Semaphore(1);
+    static String splitGame="1";
     static Box bPlayerOne[][] = new Box[21][21];
     static Box bPlayerTwo[][] = new Box[21][21]; 
     static ArrayList<Boat> Boats = new ArrayList<Boat>();//Riempito e clonato per ogni giocatore
@@ -37,15 +38,15 @@ public class NavalBattleServer {
             Boat b2 = new Boat(2,"b2");
             Boats.add(b2);
             Boat b3 = new Boat(2,"b3");
-            Boats.add(b3);
+            //Boats.add(b3);
             Boat b4 = new Boat(3,"b4");
-            Boats.add(b4);
+            //Boats.add(b4);
             Boat b5 = new Boat(3,"b5");
-            Boats.add(b5);
+            //Boats.add(b5);
             Boat b6 = new Boat(4,"b6");
-            Boats.add(b6);
+            //Boats.add(b6);
             Boat b7 = new Boat(5,"b7");
-            Boats.add(b7);
+            //Boats.add(b7);
                 
             ServerSocket server = new ServerSocket(6012);
             System.out.println("BServer is onine!");
@@ -53,8 +54,8 @@ public class NavalBattleServer {
             while(true)
             {
              
-                ListaConnessioni.execute(new Game(server.accept(),'1',bPlayerOne,bPlayerTwo,Boats));              
-                ListaConnessioni.execute(new Game(server.accept(),'2',bPlayerTwo,bPlayerOne,Boats));
+                ListaConnessioni.execute(new Game(server.accept(),"1",bPlayerOne,bPlayerTwo,Boats));              
+                ListaConnessioni.execute(new Game(server.accept(),"2",bPlayerTwo,bPlayerOne,Boats));
             }
         }
         catch(Exception e)

@@ -19,18 +19,19 @@ import java.util.logging.Logger;
  */
 public class Game implements Runnable{
 
-    private char sName;
+    private String sName;
     Socket socket;
     Scanner input;
     PrintWriter output;
     private ArrayList<Boat> Boats = new ArrayList<Boat>();
     private Box refGrid[][];
     private Box refOpponent[][];
-    
+    String comando;
+    String sChk;
 
     String[] arrOfStr;
     
-    public Game(Socket socket, char sName,Box refGrid[][],Box refOpponent[][],ArrayList<Boat> Boats) 
+    public Game(Socket socket, String sName,Box refGrid[][],Box refOpponent[][],ArrayList<Boat> Boats) 
     {
         this.socket = socket;
         this.sName = sName;
@@ -46,13 +47,44 @@ public class Game implements Runnable{
             input = new Scanner(socket.getInputStream());
             output = new PrintWriter(socket.getOutputStream(),true);
             System.out.println(sName);
-            setup();           
+            setup();
+            play();
         }                 
         catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
+    private void play() throws InterruptedException
+    {
+        try
+        {
+            do
+            {
+            if(sName==NavalBattleServer.splitGame)                
+                {
+                NavalBattleServer.turnPlay.acquire();
+                output.println(this.sName+"@a");
+                comando = input.nextLine();
+                arrOfStr= comando.split("@", 10);
+                sChk = this.attackBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]));
+                if(sName.equals("1"))
+                    NavalBattleServer.splitGame="2";
+                else
+                    NavalBattleServer.splitGame="1";
+                output.println(sChk);
+                NavalBattleServer.turnPlay.release();
+                }   
+
+            }while(true);
+        }
+        catch(Exception e)
+        {
+            System.out.println("errore attacco "+ e);
+        }
+            
+    }
     private void showMatrix()
     {
         
@@ -69,23 +101,26 @@ public class Game implements Runnable{
             
     private String setBoat(int x,int y,char cOr,String boatName,Boat b)
     {
+        int j=0;
         if(this.checkSpazio(x, y, b.iLunghezza, cOr) == true)
         {
             if(cOr == 'v')
             {
-                for(int i = y; i < y+b.iLunghezza;i++)
+                for(int i = y; i < y+b.iLunghezza;i++,j++)
                    {
                        refGrid[x][i].contenuto = 'b';
                        refGrid[x][i].nomeBarca= boatName;
+                       //this.Boats.get(j).bPosizione.add(refGrid[x][i]);
                    }
                 return "ADD";
             }
             else if(cOr == 'o')
             {
-                for(int i = x; i < x+b.iLunghezza;i++)
+                for(int i = x; i < x+b.iLunghezza;i++,j++)
                    {
-                       refGrid[i][y].contenuto = 'b';
-                       refGrid[i][y].nomeBarca= boatName;
+                        refGrid[i][y].contenuto = 'b';
+                        refGrid[i][y].nomeBarca= boatName;
+                        //this.Boats.get(j).bPosizione.add(refGrid[i][y]);
                    }
                 return "ADD";
             }           
@@ -130,29 +165,32 @@ public class Game implements Runnable{
     }
     
     
-    public boolean attackBoat(int x,int y)
+    public String attackBoat(int x,int y)
     {
         //for(int i=0;i<)
-       if(refOpponent[x][y].contenuto=='b'&& refOpponent[x][y].contenuto=='m')
+    if(x <21 && x >=0 && y <21 && y >=0)//Controllo dati x e y
+       if(refOpponent[x][y].contenuto=='b')
          {
             refOpponent[x][y].contenuto='d';
-            
-               return true;
+               return "c";
+               
          }
         else if(refOpponent[x][y].contenuto=='d')
          {
-                return false;
+                return "gc";//Gia colpita
           }
-           
-        return false;
+        else
+        {
+            return "m";
+        }
+    else
+         return "f";
+    
+        
     }
   
     public void setup()
     {
-        String comando;
-        String chkAdd;
-        //System.out.println(this.sName+ " connesso!");
-         
             try{
                 for(int i = 0; i < Boats.size();i++){
                     output.println(this.sName+"@p");//client
@@ -161,9 +199,9 @@ public class Game implements Runnable{
                         output.println(Boats.get(i).iLunghezza+"@"+Boats.get(i).nome);
                         comando = input.nextLine();
                         arrOfStr= comando.split("@", 10);
-                        chkAdd = this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i));
-                        output.println(chkAdd);
-                    }while(chkAdd.equals("NEAR") );
+                        sChk = this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i));
+                        output.println(sChk);
+                    }while(sChk.equals("NEAR") );
                 }
                 output.println(this.sName+"@v");
                 if(input.nextLine().equals("stampa"))
