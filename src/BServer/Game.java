@@ -55,19 +55,15 @@ public class Game implements Runnable{
    
     private void showMatrix()
     {
-        String a = "";
-        for(int i = 0; i<21;i++)
-         {
-             for(int j = 0; j<21;j++)
-            {
-                a += refGrid[i][j].contenuto+"|";
-                
+        
+            String a = "";
+            for(int i = 0; i<21;i++){
+                for(int j = 0; j<21;j++){
+                    a += refGrid[j][i].contenuto+"|";
+                }
+                a+="#";
             }
-             
-             a+="#";
-         } 
-       // output.println(a);
-        output.println(a);
+            output.println(a);
     }
     
             
@@ -75,28 +71,21 @@ public class Game implements Runnable{
     {
         if(this.checkSpazio(x, y, b.iLunghezza, cOr) == true)
         {
-            int iL;
             if(cOr == 'v')
             {
-                iL = x;
                 for(int i = y; i < y+b.iLunghezza;i++)
                    {
                        refGrid[x][i].contenuto = 'b';
                        refGrid[x][i].nomeBarca= boatName;
-                       //System.out.println("Add");
-
                    }
                 return "ADD";
             }
             else if(cOr == 'o')
             {
-                iL = y;
                 for(int i = x; i < x+b.iLunghezza;i++)
                    {
                        refGrid[i][y].contenuto = 'b';
                        refGrid[i][y].nomeBarca= boatName;
-                       //System.out.println("Add");
-
                    }
                 return "ADD";
             }           
@@ -165,30 +154,26 @@ public class Game implements Runnable{
         //System.out.println(this.sName+ " connesso!");
          
             try{
-            for(int i = 0; i < Boats.size();i++)
-                {
-                        output.println(this.sName+"@p");//client
-                        //input.nextLine();
-
-                        do
-                        {
-                            output.println(Boats.get(i).iLunghezza+"@"+Boats.get(i).nome);
-                            comando = input.nextLine();
-                            arrOfStr= comando.split("@", 10);
-                            chkAdd = this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i));
-                            output.println(chkAdd);
-                        }while(chkAdd.equals("NEAR") );
-                        //showMatrix();
-                    }
+                for(int i = 0; i < Boats.size();i++){
+                    output.println(this.sName+"@p");//client
+                    //input.nextLine();
+                    do{
+                        output.println(Boats.get(i).iLunghezza+"@"+Boats.get(i).nome);
+                        comando = input.nextLine();
+                        arrOfStr= comando.split("@", 10);
+                        chkAdd = this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i));
+                        output.println(chkAdd);
+                    }while(chkAdd.equals("NEAR") );
                 }
-            catch(Exception e)
-            {
+                output.println(this.sName+"@v");
+                if(input.nextLine().equals("stampa"))
+                    showMatrix();
+            }
+            catch(Exception e){
                 System.out.println(e);
             }
     }
     //controllo il turno del giocatore e se hai un avversario
-
-
 }
     
 
