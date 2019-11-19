@@ -97,7 +97,30 @@ public class Game implements Runnable{
             }
             output.println(a);
     }
-    
+    public String checkBoat(Box refOpponent[][],int x, int y)
+    {
+        int iCounter =0 ;
+        int iLung = 0;
+        
+        for(int i = 0; i < Boats.size();i++)
+            if(Boats.get(i).nome.equals(refOpponent[x][y]))
+                iLung = Boats.get(i).iLunghezza;
+            
+
+
+        for(int i = 0;i<21;i++)
+            for(int j = 0; i < 21; i++)
+            {
+                if(refOpponent[x][y].nomeBarca == refOpponent[x][y].nomeBarca && refOpponent[x][y].contenuto=='c')
+                {
+                    iCounter++;
+                }
+            }
+        if(iCounter == iLung)
+            return "d";
+        else
+            return"c";
+    }
             
     private String setBoat(int x,int y,char cOr,String boatName,Boat b)
     {
@@ -172,11 +195,10 @@ public class Game implements Runnable{
     if(x <21 && x >=0 && y <21 && y >=0)//Controllo dati x e y
        if(refOpponent[x][y].contenuto=='b')
          {
-            refOpponent[x][y].contenuto='d';
-               return "c";
-               
+            refOpponent[x][y].contenuto='c';
+               return this.checkBoat(refOpponent, x, y);              
          }
-        else if(refOpponent[x][y].contenuto=='d')
+        else if(refOpponent[x][y].contenuto=='c')
          {
                 return "gc";//Gia colpita
           }
