@@ -17,13 +17,12 @@ import java.util.ArrayList;
  */
 public class Boat {
     public  int iLunghezza ;
-    public ArrayList<Box> bPosizione;
+    public ArrayList<Box> bPosizione = new ArrayList<Box>();
     public String nome;
 
     public Boat(int iLunghezza,String nome) {
         this.iLunghezza=iLunghezza;
         this.nome = nome;
-        //this.bPosizione = new ArrayList <Box>();
     }
     
     /**
@@ -42,5 +41,4 @@ public class Boat {
         }
         return false;
     }
-    
 }

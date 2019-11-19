@@ -109,8 +109,9 @@ public class Game implements Runnable{
                 for(int i = y; i < y+b.iLunghezza;i++,j++)
                    {
                        refGrid[x][i].contenuto = 'b';
-                       refGrid[x][i].nomeBarca= boatName;
-                       //this.Boats.get(j).bPosizione.add(refGrid[x][i]);
+                       refGrid[x][i].nomeBarca= boatName;;
+                       this.Boats.get(j).bPosizione.add(refGrid[x][i]);
+
                    }
                 return "ADD";
             }
@@ -120,7 +121,7 @@ public class Game implements Runnable{
                    {
                         refGrid[i][y].contenuto = 'b';
                         refGrid[i][y].nomeBarca= boatName;
-                        //this.Boats.get(j).bPosizione.add(refGrid[i][y]);
+                        this.Boats.get(j).bPosizione.add(refGrid[i][y]);
                    }
                 return "ADD";
             }           
