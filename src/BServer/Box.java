@@ -12,5 +12,22 @@ package BServer;
 public class Box {
         public char contenuto = 'm';
         public String nomeBarca;
+
+    public char getContenuto() {
+        return contenuto;
+    }
+
+    public void setContenuto(char contenuto) {
+        this.contenuto = contenuto;
+    }
+
+    public String getNomeBarca() {
+        return nomeBarca;
+    }
+
+    public void setNomeBarca(String nomeBarca) {
+        this.nomeBarca = nomeBarca;
+    }
+        
         
 }

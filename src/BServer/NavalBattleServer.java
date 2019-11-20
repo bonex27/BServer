@@ -21,7 +21,8 @@ public class NavalBattleServer {
      * @param args
      */
     static Semaphore turnPlay = new Semaphore(1);
-    static String splitGame="1";
+    static Semaphore turnPlay2 = new Semaphore(0);
+    static String state="go";
     static Box bPlayerOne[][] = new Box[21][21];
     static Box bPlayerTwo[][] = new Box[21][21]; 
     static ArrayList<Boat> Boats = new ArrayList<Boat>();//Riempito e clonato per ogni giocatore
@@ -35,7 +36,7 @@ public class NavalBattleServer {
         try{
             Boat b1 = new Boat(2,"b1");
             Boats.add(b1);
-            Boat b2 = new Boat(2,"b2");
+            Boat b2 = new Boat(1,"b2");
             Boats.add(b2);
             Boat b3 = new Boat(2,"b3");
             //Boats.add(b3);

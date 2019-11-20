@@ -41,4 +41,29 @@ public class Boat {
         }
         return false;
     }
+
+    public int getiLunghezza() {
+        return iLunghezza;
+    }
+
+    public void setiLunghezza(int iLunghezza) {
+        this.iLunghezza = iLunghezza;
+    }
+
+    public ArrayList<Box> getbPosizione() {
+        return bPosizione;
+    }
+
+    public void setbPosizione(ArrayList<Box> bPosizione) {
+        this.bPosizione = bPosizione;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
 }

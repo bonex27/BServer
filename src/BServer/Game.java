@@ -28,7 +28,7 @@ public class Game implements Runnable{
     private Box refOpponent[][];
     String comando;
     String sChk;
-
+    int boatState=0;
     String[] arrOfStr;
     
     public Game(Socket socket, String sName,Box refGrid[][],Box refOpponent[][],ArrayList<Boat> Boats) 
@@ -62,22 +62,30 @@ public class Game implements Runnable{
         {
             do
             {
-            if(sName==NavalBattleServer.splitGame)                
+                //Thread.sleep(100);
+
+                if(sName.equals("1"))
+                    NavalBattleServer.turnPlay.acquire();
+                
+                else
+                    NavalBattleServer.turnPlay2.acquire();
+                if(NavalBattleServer.state.equals("stop"))
+                    output.println("lose");
+                else
                 {
-                NavalBattleServer.turnPlay.acquire();
                 output.println(this.sName+"@a");
                 comando = input.nextLine();
                 arrOfStr= comando.split("@", 10);
-                sChk = this.attackBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]));
-                if(sName.equals("1"))
-                    NavalBattleServer.splitGame="2";
-                else
-                    NavalBattleServer.splitGame="1";
-                output.println(sChk);
-                NavalBattleServer.turnPlay.release();
-                }   
-
-            }while(true);
+                sChk = this.attackBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]));                
+                output.println(sChk);                
+                                  
+                if(sName.equals("1"))                   
+                    NavalBattleServer.turnPlay2.release();
+                
+                else                   
+                    NavalBattleServer.turnPlay.release();
+                }
+            }while(!NavalBattleServer.state.equals("stop"));
         }
         catch(Exception e)
         {
@@ -101,23 +109,34 @@ public class Game implements Runnable{
     {
         int iCounter =0 ;
         int iLung = 0;
-        
+        int statBoat;
         for(int i = 0; i < Boats.size();i++)
-            if(Boats.get(i).nome.equals(refOpponent[x][y]))
+            if(Boats.get(i).getNome().equals(refOpponent[x][y].getNomeBarca()))
                 iLung = Boats.get(i).iLunghezza;
             
 
 
         for(int i = 0;i<21;i++)
-            for(int j = 0; i < 21; i++)
-            {
-                if(refOpponent[x][y].nomeBarca == refOpponent[x][y].nomeBarca && refOpponent[x][y].contenuto=='c')
-                {
-                    iCounter++;
-                }
-            }
+            for(int j = 0; j < 21; j++)            
+                if(refOpponent[i][j].getNomeBarca()!= null)                
+                    if(refOpponent[i][j].getNomeBarca().equals(refOpponent[x][y].getNomeBarca())   && refOpponent[i][j].getContenuto() == 'c')
+                    {
+                        iCounter++;
+                    }              
+            
+        
+        
         if(iCounter == iLung)
+        {
+            this.boatState++;
+            if(boatState == Boats.size())
+            {
+                NavalBattleServer.state = "stop";
+                return "win";
+            }
             return "d";
+        }
+            
         else
             return"c";
     }
