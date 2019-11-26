@@ -69,12 +69,14 @@ public class Game implements Runnable {
                     if (NavalBattleServer.state.equals("1")) 
                     { 
                         output.println(this.sName+"@win");
-                        a = "stop";              
+                        a = "stop";
+                        NavalBattleServer.turnPlay2.release();
                     }
                     else if(NavalBattleServer.state.equals("2"))
                     {
                         output.println(this.sName+"@lose");
                         a = "stop";
+                        NavalBattleServer.turnPlay2.release();
                     }
                 } 
                 else {
@@ -84,11 +86,13 @@ public class Game implements Runnable {
                     {
                         output.println(this.sName+"@lose");
                         a = "stop";
+                        NavalBattleServer.turnPlay.release();
                     }
                     else if(NavalBattleServer.state.equals("2"))
                     {
                         output.println(this.sName+"@win");
                         a = "stop";
+                        NavalBattleServer.turnPlay2.release();
                     }
                 }
                 
