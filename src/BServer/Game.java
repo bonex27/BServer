@@ -144,7 +144,7 @@ public class Game implements Runnable{
         else
             return"c";
     }
-     
+    
 //        private String setBoat(int x,int y)
 //        {
 //            if(this.checkSpazio(x, y))
@@ -223,7 +223,37 @@ public class Game implements Runnable{
         return false;
     }
     
-    
+    public boolean checkSpazio2(int x,int y,int iLung,char orientation )//Controlla in tutte le 8 caselle vicine 
+    {
+        switch(orientation){
+            case 'v':
+                for(int X = x-1; X < x+2; X++){
+                    if(x==0) X++;
+                    if(X==21) X++;
+                    for(int Y = y-1; Y <= y+iLung; Y++){
+                        if(y==0) Y++;
+                        if(y+iLung==21) Y++;
+                        if(refGrid[X][Y].contenuto == 'b')
+                            return false;
+                    }
+                }                
+                return true;
+                
+            case 'o':
+                for(int Y = y-1; Y < y+2; Y++){
+                    if(y==0) Y++;
+                    if(Y==21) Y++;
+                    for(int X = x-1; X <= x+iLung; X++){
+                        if(x==0) X++;
+                        if(x+iLung==21) X++;
+                        if(refGrid[X][Y].contenuto == 'b')
+                            return false;
+                    }
+                }  
+                return true;
+        }
+        return false;
+    }
     public String attackBoat(int x,int y,Box refOpponent[][])
     {
         
