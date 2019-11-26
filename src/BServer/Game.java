@@ -51,85 +51,60 @@ public class Game implements Runnable {
             play();
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
         }
     }
 
     private void play() {
         String a = "";
         try {
-            
+
             do {
                 //Thread.sleep(100);
 
                 if (sName.equals("1")) {
                     NavalBattleServer.turnPlay.acquire();
-                    if (NavalBattleServer.state.equals("1")) 
-                    { 
-                        output.println(this.sName+"@win");
+                    if (NavalBattleServer.state.equals("1")) {
+                        output.println(this.sName + "@win");
+                        a = "stop";
+                        NavalBattleServer.turnPlay2.release();
+                    } else if (NavalBattleServer.state.equals("2")) {
+                        output.println(this.sName + "@lose");
                         a = "stop";
                         NavalBattleServer.turnPlay2.release();
                     }
-                    else if(NavalBattleServer.state.equals("2"))
-                    {
-                        output.println(this.sName+"@lose");
-                        a = "stop";
-                        NavalBattleServer.turnPlay2.release();
-                    }
-                } 
-                else {
+                } else {
 
                     NavalBattleServer.turnPlay2.acquire();
-                    if (NavalBattleServer.state.equals("1")) 
-                    {
-                        output.println(this.sName+"@lose");
+                    if (NavalBattleServer.state.equals("1")) {
+                        output.println(this.sName + "@lose");
                         a = "stop";
                         NavalBattleServer.turnPlay.release();
-                    }
-                    else if(NavalBattleServer.state.equals("2"))
-                    {
-                        output.println(this.sName+"@win");
+                    } else if (NavalBattleServer.state.equals("2")) {
+                        output.println(this.sName + "@win");
                         a = "stop";
                         NavalBattleServer.turnPlay2.release();
                     }
                 }
-                
 
-                if(a != "stop")
-                {
-                      output.println(this.sName + "@a");
-//                    }
+                if (a != "stop") {
+                    output.println(this.sName + "@a");
 
                     comando = input.nextLine();
                     arrOfStr = comando.split("@", 10);
                     sChk = this.attackBoat(Integer.parseInt(arrOfStr[2]), Integer.parseInt(arrOfStr[3]), refOpponent);
 
-//                        NavalBattleServer.x = Integer.parseInt(arrOfStr[2]);
-//                        NavalBattleServer.y = Integer.parseInt(arrOfStr[3]);
-//                        NavalBattleServer.Posbarca = sChk;
                     output.println(sChk);
 
                     if (sName.equals("1")) {
-//                        NavalBattleServer.x = Integer.parseInt(arrOfStr[2]);
-                        NavalBattleServer.y = Integer.parseInt(arrOfStr[3]);
-                        NavalBattleServer.Posbarca = sChk;
+//                       
                         NavalBattleServer.turnPlay2.release();
-                        NavalBattleServer.posi = true;
-                    } else //                    {if (NavalBattleServer.control1 == true) {
-                    //                            NavalBattleServer.posi = true;
-                    //                            NavalBattleServer.control1 =false;
-                    //                        }
-                    {
-                        NavalBattleServer.y = Integer.parseInt(arrOfStr[3]);
-                        NavalBattleServer.Posbarca = sChk;
-                        NavalBattleServer.turnPlay2.release();
-                        NavalBattleServer.posi = true;
+
+                    } else {
+
                         NavalBattleServer.turnPlay.release();
                     }
                 }
-                
 
             } while (!NavalBattleServer.state.equals("stop"));
         } catch (Exception e) {
@@ -182,7 +157,7 @@ public class Game implements Runnable {
         }
     }
 
-    private String setBoat(int l, char a, int x, int y,String boatName) {
+    private String setBoat(int l, char a, int x, int y, String boatName) {
         int j = 0;
         if (this.checkSpazio(x, y, l, a) == true) {
             if (a == 'v') {
@@ -253,7 +228,7 @@ public class Game implements Runnable {
         }
         return false;
     }
-    
+
     public String attackBoat(int x, int y, Box refOpponent[][]) {
 
         if (refOpponent[x][y].contenuto == 'b') {
@@ -279,7 +254,7 @@ public class Game implements Runnable {
                     output.println(Boats.get(i).iLunghezza + "@" + Boats.get(i).orient);
                     comando = input.nextLine();
                     arrOfStr = comando.split("@", 10);
-                    sChk = this.setBoat(Integer.parseInt(arrOfStr[0]), arrOfStr[1].charAt(0), Integer.parseInt(arrOfStr[2]), Integer.parseInt(arrOfStr[3]),Boats.get(i).getNome());
+                    sChk = this.setBoat(Integer.parseInt(arrOfStr[0]), arrOfStr[1].charAt(0), Integer.parseInt(arrOfStr[2]), Integer.parseInt(arrOfStr[3]), Boats.get(i).getNome());
                     output.println(sChk);
                 } while (sChk.equals("NEAR"));
 
