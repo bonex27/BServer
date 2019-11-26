@@ -52,11 +52,12 @@ public class Game implements Runnable{
         }                 
         catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
-    private void play() throws InterruptedException
+    }
+    private void play() 
     {
         try
         {
@@ -73,11 +74,14 @@ public class Game implements Runnable{
                     output.println("lose");
                 else
                 {
+                    
                 output.println(this.sName+"@a");
+                
                 comando = input.nextLine();
                 arrOfStr= comando.split("@", 10);
-                sChk = this.attackBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]));                
-                output.println(sChk);                
+                sChk = this.attackBoat(Integer.parseInt(arrOfStr[2]),Integer.parseInt(arrOfStr[3]),refOpponent);      
+                output.println(sChk); 
+               
                                   
                 if(sName.equals("1"))                   
                     NavalBattleServer.turnPlay2.release();
@@ -126,7 +130,7 @@ public class Game implements Runnable{
             
         
         
-        if(iCounter == iLung)
+        if(iCounter == 3)
         {
             this.boatState++;
             if(boatState == Boats.size())
@@ -140,39 +144,51 @@ public class Game implements Runnable{
         else
             return"c";
     }
-            
-    private String setBoat(int x,int y,char cOr,String boatName,Boat b)
+     
+//        private String setBoat(int x,int y)
+//        {
+//            if(this.checkSpazio(x, y))
+//            {
+//           refGrid[x][y].contenuto='b';
+//            return "ADD";
+//            }
+//        return "NEAR";
+//        
+//        }
+    private String setBoat(int l,char a,int x,int y)
     {
         int j=0;
-        if(this.checkSpazio(x, y, b.iLunghezza, cOr) == true)
-        {
-            if(cOr == 'v')
+        if(this.checkSpazio(x, y,l, a) == true)
+               {
+            if(a=='v')
             {
-                for(int i = y; i < y+b.iLunghezza;i++,j++)
+                for(int i = y; i < y+l;i++)
                    {
                        refGrid[x][i].contenuto = 'b';
-                       refGrid[x][i].nomeBarca= boatName;;
-                       this.Boats.get(j).bPosizione.add(refGrid[x][i]);
+//                       refGrid[x][i].nomeBarca= boatName;;
+//                       this.Boats.get(j).bPosizione.add(refGrid[x][i]);
 
                    }
                 return "ADD";
             }
-            else if(cOr == 'o')
+            else if(a=='o')
             {
-                for(int i = x; i < x+b.iLunghezza;i++,j++)
+                for(int i = x; i < x+l;i++)
                    {
                         refGrid[i][y].contenuto = 'b';
-                        refGrid[i][y].nomeBarca= boatName;
-                        this.Boats.get(j).bPosizione.add(refGrid[i][y]);
+//                        refGrid[i][y].nomeBarca= boatName;
+//                        this.Boats.get(j).bPosizione.add(refGrid[i][y]);
                    }
                 return "ADD";
             }           
         }
         return "NEAR";
     }
-    public boolean checkSpazio(int x,int y,int iLung,char cOr)//Controlla in tutte le 8 caselle vicine 
+    public boolean checkSpazio(int x,int y,int iLung,char cOr )//Controlla in tutte le 8 caselle vicine 
     {
-        if(cOr == 'o')
+        
+        
+      if(cOr == 'o')
         {
             int iX;
            
@@ -208,49 +224,50 @@ public class Game implements Runnable{
     }
     
     
-    public String attackBoat(int x,int y)
+    public String attackBoat(int x,int y,Box refOpponent[][])
     {
-        //for(int i=0;i<)
-    if(x <21 && x >=0 && y <21 && y >=0)//Controllo dati x e y
-       if(refOpponent[x][y].contenuto=='b')
-         {
+        
+        if(refOpponent[x][y].contenuto=='b')
+        {
             refOpponent[x][y].contenuto='c';
-               return this.checkBoat(refOpponent, x, y);              
-         }
-        else if(refOpponent[x][y].contenuto=='c')
+           // NavalBattleServer.pos+=x+"@"+y;
+            return checkBoat( refOpponent, x, y);
+        }
+         else if(refOpponent[x][y].contenuto=='c')
          {
                 return "gc";//Gia colpita
           }
         else
-        {
+         {
             return "m";
-        }
-    else
-         return "f";
+         }
     
         
     }
   
     public void setup()
     {
+        int f=0;
             try{
                 for(int i = 0; i < Boats.size();i++){
+                    
                     output.println(this.sName+"@p");//client
-                    //input.nextLine();
+                   
                     do{
                         output.println(Boats.get(i).iLunghezza+"@"+Boats.get(i).nome);
                         comando = input.nextLine();
                         arrOfStr= comando.split("@", 10);
-                        sChk = this.setBoat(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),arrOfStr[2].charAt(0),Boats.get(i).nome,Boats.get(i));
+                        sChk = this.setBoat(Integer.parseInt(arrOfStr[0]),arrOfStr[1].charAt(0),Integer.parseInt(arrOfStr[2]),Integer.parseInt(arrOfStr[3]));
                         output.println(sChk);
                     }while(sChk.equals("NEAR") );
+                    
                 }
                 output.println(this.sName+"@v");
                 if(input.nextLine().equals("stampa"))
                     showMatrix();
             }
             catch(Exception e){
-                System.out.println(e);
+                System.out.println(e+"ci");
             }
     }
     //controllo il turno del giocatore e se hai un avversario
