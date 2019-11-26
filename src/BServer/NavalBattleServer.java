@@ -40,7 +40,7 @@ public class NavalBattleServer {
             Boat b2 = new Boat(2, "v","b2");
             Boats.add(b2);
             Boat b3 = new Boat(3, "v","b3");
-            Boats.add(b3);
+            //Boats.add(b3);
 //            Boat b4 = new Boat(3,"o");
 //            Boats.add(b4);
 //            Boat b5 = new Boat(3,"o");
@@ -58,7 +58,7 @@ public class NavalBattleServer {
                 ListaConnessioni.execute(new Game(server.accept(), "1", bPlayerOne, bPlayerTwo, Boats));
                 ListaConnessioni.execute(new Game(server.accept(), "2", bPlayerTwo, bPlayerOne, Boats));
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Errore server" + e);
         }
 

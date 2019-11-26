@@ -58,22 +58,43 @@ public class Game implements Runnable {
     }
 
     private void play() {
+        String a = "";
         try {
+            
             do {
                 //Thread.sleep(100);
 
                 if (sName.equals("1")) {
                     NavalBattleServer.turnPlay.acquire();
-
-                } else {
-
-                    NavalBattleServer.turnPlay2.acquire();
-
-                }
-                if (NavalBattleServer.state.equals("stop")) {
-                    output.println("lose");
+                    if (NavalBattleServer.state.equals("1")) 
+                    { 
+                        output.println(this.sName+"@win");
+                        a = "stop";              
+                    }
+                    else if(NavalBattleServer.state.equals("2"))
+                    {
+                        output.println(this.sName+"@lose");
+                        a = "stop";
+                    }
                 } 
                 else {
+
+                    NavalBattleServer.turnPlay2.acquire();
+                    if (NavalBattleServer.state.equals("1")) 
+                    {
+                        output.println(this.sName+"@lose");
+                        a = "stop";
+                    }
+                    else if(NavalBattleServer.state.equals("2"))
+                    {
+                        output.println(this.sName+"@win");
+                        a = "stop";
+                    }
+                }
+                
+
+                if(a != "stop")
+                {
                       output.println(this.sName + "@a");
 //                    }
 
@@ -103,8 +124,8 @@ public class Game implements Runnable {
                         NavalBattleServer.posi = true;
                         NavalBattleServer.turnPlay.release();
                     }
-
                 }
+                
 
             } while (!NavalBattleServer.state.equals("stop"));
         } catch (Exception e) {
@@ -148,8 +169,8 @@ public class Game implements Runnable {
         if (iCounter == iLung) {
             this.boatState++;
             if (boatState == Boats.size()) {
-                NavalBattleServer.state = "stop";
-                return "win";
+                NavalBattleServer.state = this.sName;
+                return "d";
             }
             return "d";
         } else {
@@ -228,7 +249,7 @@ public class Game implements Runnable {
         }
         return false;
     }
-
+    
     public String attackBoat(int x, int y, Box refOpponent[][]) {
 
         if (refOpponent[x][y].contenuto == 'b') {
