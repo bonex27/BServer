@@ -35,11 +35,11 @@ public class NavalBattleServer {
         initMatrix(bPlayerTwo);
 
         try {
-            Boat b1 = new Boat(1, "o");
+            Boat b1 = new Boat(1, "o","b1");
             Boats.add(b1);
-            Boat b2 = new Boat(2, "v");
+            Boat b2 = new Boat(2, "v","b2");
             Boats.add(b2);
-            Boat b3 = new Boat(3, "v");
+            Boat b3 = new Boat(3, "v","b3");
             Boats.add(b3);
 //            Boat b4 = new Boat(3,"o");
 //            Boats.add(b4);

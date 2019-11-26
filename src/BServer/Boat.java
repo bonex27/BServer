@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class Boat {
     public  int iLunghezza ;
     public ArrayList<Box> bPosizione = new ArrayList<Box>();
-    public String nome;
+    public String orient;
+    private String nome; 
 
-    public Boat(int iLunghezza,String nome) {
+    public Boat(int iLunghezza,String orient,String nome) {
         this.iLunghezza=iLunghezza;
+        this.orient = orient;
         this.nome = nome;
     }
     
@@ -58,11 +60,19 @@ public class Boat {
         this.bPosizione = bPosizione;
     }
 
+    public String getOrient() {
+        return orient;
+    }
+
+    public void getOrient(String nome) {
+        this.orient = nome;
+    }
+
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setome(String nome) {
         this.nome = nome;
     }
     

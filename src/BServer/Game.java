@@ -74,19 +74,6 @@ public class Game implements Runnable {
                     output.println("lose");
                 } 
                 else {
-//                    if (true == NavalBattleServer.posi) {
-//
-//                        s = NavalBattleServer.x + "@" + NavalBattleServer.y + "@" + NavalBattleServer.Posbarca;
-//                        output.println(this.sName + "@a" + "@" + s);
-////                        NavalBattleServer.control1=true;
-//
-//                    } //                     else if(true ==NavalBattleServer.control1)
-//                    //                     {
-//                    //                         s= NavalBattleServer.x+"@"+ NavalBattleServer.y+ "@"+ NavalBattleServer.Posbarca;
-//                    //                         output.println(this.sName+ "@a"+"@"+s);
-//                    //                          NavalBattleServer.posi=false;
-//                    //                     }
-//                    else {
                       output.println(this.sName + "@a");
 //                    }
 
@@ -158,7 +145,7 @@ public class Game implements Runnable {
             }
         }
 
-        if (iCounter == 3) {
+        if (iCounter == iLung) {
             this.boatState++;
             if (boatState == Boats.size()) {
                 NavalBattleServer.state = "stop";
@@ -170,18 +157,21 @@ public class Game implements Runnable {
         }
     }
 
-    private String setBoat(int l, char a, int x, int y) {
+    private String setBoat(int l, char a, int x, int y,String boatName) {
         int j = 0;
         if (this.checkSpazio(x, y, l, a) == true) {
             if (a == 'v') {
                 for (int i = y; i < y + l; i++) {
                     refGrid[x][i].contenuto = 'b';
+                    refGrid[x][i].nomeBarca = boatName;
 
                 }
                 return "ADD";
             } else if (a == 'o') {
                 for (int i = x; i < x + l; i++) {
                     refGrid[i][y].contenuto = 'b';
+                    refGrid[i][y].nomeBarca = boatName;
+
                 }
                 return "ADD";
             }
@@ -261,10 +251,10 @@ public class Game implements Runnable {
                 output.println(this.sName + "@p");//client
 
                 do {
-                    output.println(Boats.get(i).iLunghezza + "@" + Boats.get(i).nome);
+                    output.println(Boats.get(i).iLunghezza + "@" + Boats.get(i).orient);
                     comando = input.nextLine();
                     arrOfStr = comando.split("@", 10);
-                    sChk = this.setBoat(Integer.parseInt(arrOfStr[0]), arrOfStr[1].charAt(0), Integer.parseInt(arrOfStr[2]), Integer.parseInt(arrOfStr[3]));
+                    sChk = this.setBoat(Integer.parseInt(arrOfStr[0]), arrOfStr[1].charAt(0), Integer.parseInt(arrOfStr[2]), Integer.parseInt(arrOfStr[3]),Boats.get(i).getNome());
                     output.println(sChk);
                 } while (sChk.equals("NEAR"));
 
