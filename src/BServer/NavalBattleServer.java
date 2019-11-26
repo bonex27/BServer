@@ -26,7 +26,7 @@ public class NavalBattleServer {
     static Box bPlayerOne[][] = new Box[21][21];
     static Box bPlayerTwo[][] = new Box[21][21]; 
     static ArrayList<Boat> Boats = new ArrayList<Boat>();//Riempito e clonato per ogni giocatore
-    static Game currentPlayer;
+    static String pos;
     public static void main(String[] args) throws IOException 
     {
            initMatrix (bPlayerOne);//Inizializzazione matrice a m
@@ -34,20 +34,20 @@ public class NavalBattleServer {
         
         
         try{
-            Boat b1 = new Boat(2,"b1");
+            Boat b1 = new Boat(1,"o");
             Boats.add(b1);
-            Boat b2 = new Boat(1,"b2");
-            Boats.add(b2);
-            Boat b3 = new Boat(2,"b3");
-            //Boats.add(b3);
-            Boat b4 = new Boat(3,"b4");
-            //Boats.add(b4);
-            Boat b5 = new Boat(3,"b5");
-            //Boats.add(b5);
-            Boat b6 = new Boat(4,"b6");
-            //Boats.add(b6);
-            Boat b7 = new Boat(5,"b7");
-            //Boats.add(b7);
+            Boat b2 = new Boat(2,"v");
+           Boats.add(b2);
+            Boat b3 = new Boat(3,"v");
+            Boats.add(b3);
+            Boat b4 = new Boat(3,"o");
+            Boats.add(b4);
+            Boat b5 = new Boat(3,"o");
+            Boats.add(b5);
+            Boat b6 = new Boat(4,"v");
+            Boats.add(b6);
+            Boat b7 = new Boat(5,"o");
+            Boats.add(b7);
                 
             ServerSocket server = new ServerSocket(6012);
             System.out.println("BServer is onine!");
